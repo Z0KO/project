@@ -1,0 +1,28 @@
+class Client:
+
+    def __init__ (self , Nom , Prenom , Adresse , Telephone , Profession):
+
+          self.Nom = Nom
+          self.Prenom = Prenom
+          self.Adresse = Adresse
+          self.Telephone = Telephone
+          self.Profession = Profession
+          
+    def nom_1(self):
+      return self.Nom
+      
+    def prenom_1(self):
+      return self.Prenom
+      
+    def adresse_1(self):
+      return self.Adresse
+      
+    def telephone_1(self):
+      return self.Telephone
+      
+    def profession_1(self):
+        return self.Profession
+        
+Client1= Client("Jean\n" , "Kevin\n" , "Calais\n" , "07 45 10 57 95 62\n" , "Codeur\n")
+
+print(Client1.nom_1(),Client1.prenom_1(),Client1.adresse_1(),Client1.telephone_1(),Client1.profession_1())
