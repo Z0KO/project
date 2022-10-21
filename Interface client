@@ -26,3 +26,41 @@ class Client:
 Client1= Client("Jean\n" , "Kevin\n" , "Calais\n" , "07 45 10 57 95 62\n" , "Codeur\n")
 
 print(Client1.nom_1(),Client1.prenom_1(),Client1.adresse_1(),Client1.telephone_1(),Client1.profession_1())
+
+--------------------------------------------------------------------------------------------------------------
+
+class Client:
+
+    def __init__ (self , Nom , Prenom , Adresse , Telephone , Profession):
+
+          self.Nom = Nom = input("Quel est votre nom ? : ")
+          self.Prenom = Prenom = input("Quel est votre prénom ? : ")
+          self.Adresse = Adresse = input("Quel est votre adresse ? : ")
+          self.Telephone = Telephone = input("Quel est votre numéro de téléphone ? : ")
+          self.Profession = Profession = input("Quel est votre profession ? : ")
+          
+    def nom_1(self):
+      return self.Nom
+      
+    def prenom_1(self):
+      return self.Prenom
+      
+    def adresse_1(self):
+      return self.Adresse
+      
+    def telephone_1(self):
+      return self.Telephone
+      
+    def profession_1(self):
+        return self.Profession
+
+    def nouveau_1(self , nouveau_num):
+        self.Telephone = nouveau_num
+        
+Client1= Client(" Nom\t" , "Prenom\t" , "Adresse\t" , "Telephone\t" , "Profession\t")
+
+print(Client1.nom_1(),Client1.prenom_1(),Client1.adresse_1(),Client1.telephone_1(),Client1.profession_1())
+
+Client1.nouveau_1("0782828228")
+
+print(Client1.telephone_1())
