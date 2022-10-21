@@ -31,13 +31,15 @@ print(Client1.nom_1(),Client1.prenom_1(),Client1.adresse_1(),Client1.telephone_1
 
 class Client:
 
+
+
     def __init__ (self , Nom , Prenom , Adresse , Telephone , Profession):
 
-          self.Nom = Nom = input("Quel est votre nom ? : ")
-          self.Prenom = Prenom = input("Quel est votre prénom ? : ")
-          self.Adresse = Adresse = input("Quel est votre adresse ? : ")
-          self.Telephone = Telephone = input("Quel est votre numéro de téléphone ? : ")
-          self.Profession = Profession = input("Quel est votre profession ? : ")
+          self.Nom = Nom 
+          self.Prenom = Prenom 
+          self.Adresse = Adresse 
+          self.Telephone = Telephone
+          self.Profession = Profession
           
     def nom_1(self):
       return self.Nom
@@ -54,13 +56,46 @@ class Client:
     def profession_1(self):
         return self.Profession
 
-    def nouveau_1(self , nouveau_num):
+    def telephone_2(self , nouveau_num):
         self.Telephone = nouveau_num
-        
-Client1= Client(" Nom\t" , "Prenom\t" , "Adresse\t" , "Telephone\t" , "Profession\t")
+
+    def adresse_2(self , nouveau_adresse):
+        self.Adresse = nouveau_adresse
+
+    def  affiche(self):
+         print(self.Nom  +'  ,  '+  self.Prenom  +'  ,  '+  self.Adresse+'  ,  '+  self.Telephone  +'  ,  '+  self.Profession) 
+ 
+Client1= Client(" SULTANOV\n" , "Anthony\n" , "07 42 15 39 67\n" , "13 Rue Pierron\n" , "Informaticien\n")     
+print()   
+Client2= Client("  JOYFS \n" , "Thomas\n" , "07 18 21 85 40\n" , "27 Rue Pleau\n" , "Medecin\n") 
+print()
+Client3= Client("  KUYO \n" , "David\n" , "06 17 32 50 56\n" , "97 Allée Gon\n" , "Mécanicien\n") 
 
 print(Client1.nom_1(),Client1.prenom_1(),Client1.adresse_1(),Client1.telephone_1(),Client1.profession_1())
 
-Client1.nouveau_1("0782828228")
-
+Client1.telephone_2(" 07 82 78 15 28")
+Client1.adresse_2(" 10 Allée Pluton")
 print(Client1.telephone_1())
+print(Client1.adresse_1())
+
+
+class Base_de_donne:
+
+    def __init__ (self , L):
+      self.liste= L
+
+    def ajoutclient(self , nouveauclient):
+      self.liste.append(nouveauclient)
+
+    
+    def afficherclients(self):
+      for elm in self.liste:
+        elm.affiche()
+   
+
+
+base1 = Base_de_donne([])
+base1.ajoutclient(Client1)
+base1.ajoutclient(Client2)
+base1.ajoutclient(Client3)
+base1.afficherclients()    
