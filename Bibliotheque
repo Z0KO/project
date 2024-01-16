@@ -1,0 +1,81 @@
+------ Biblo ------
+
+package Bibliotheque;
+import java.util.Scanner;
+
+public class Biblo {
+
+	public static void main(String[] args) {
+		
+		
+		Livre livrePoche=new Livre();
+		Scanner Clavier =new Scanner(System.in);
+		System.out.print("Saisir le titre : ");
+		livrePoche.setTitre (Clavier.nextLine());
+		System.out.print("Saisir le nom : ");
+		livrePoche.setNom (Clavier.nextLine());
+		System.out.print("Saisir le prénom : ");
+		livrePoche.setPrenom (Clavier.nextLine());
+		System.out.print("Saisir la catégorie : ");
+		livrePoche.setCategorie (Clavier.nextLine());
+		System.out.print("Saisir le ISBN : ");
+		livrePoche.setISBN (Clavier.nextLine());
+		
+		livrePoche.AfficherUnLivre();
+		System.out.println("Le Code du livre est " + livrePoche.CalculerLeCode());
+	}
+}
+
+------ Livre ------
+
+package Bibliotheque;
+import java.util.Scanner;
+public class Livre {
+
+
+	public static void main(String[] args) {
+	}
+	
+	private String titre;
+	private String nom;
+	private String prenom;
+	private String categorie;
+	private String ISBN;
+	
+	public void AfficherUnLivre() {
+		
+		System.out.println("Le titre est :" + titre);
+		System.out.println("Le nom est : " + nom);
+		System.out.println("Le prénom est : " + prenom);
+		System.out.println("La catégorie est :" + categorie);
+		System.out.println("Le ISBN est : " + ISBN);
+
+	}
+	
+	public String CalculerLeCode(){
+		int longISBN=ISBN.length();
+		return nom.substring(0,2)+ prenom.substring(0,2) + categorie.substring(0,2)+ISBN.substring(longISBN-2,longISBN);
+		
+	}
+	
+	public void setTitre(String t) {
+		this.titre= t;
+	}
+	
+	public void setNom(String n) {
+		this.nom= n;
+	}
+	
+	public void setPrenom(String p) {
+		this.prenom= p;
+	}
+	
+	public void setCategorie(String c) {
+		this.categorie= c;
+	}
+	
+	public void setISBN(String i) {
+		this.ISBN= i;
+	}
+	
+}
