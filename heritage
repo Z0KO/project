@@ -1,1 +1,264 @@
+------ Employe ------
 
+package Pemploye;
+
+public abstract class Employe {
+	
+	//Attributs
+	
+	private String prenom;
+	private String nomFamille;
+	
+	//Constructeur
+	
+	public Employe(String pre, String nom) {
+		prenom =pre;
+		nomFamille=nom;
+	}
+	
+	public String getPrenom() {
+		return prenom;
+	}
+	
+	public String getNom() {
+		return nomFamille;
+	}
+	
+	public String toString() {
+		return nomFamille + " " + prenom;
+	}
+	
+	public abstract double gains();
+	
+}
+
+------ Patron ------
+
+package PPatron;
+import Pemploye.Employe;
+
+	
+	public final class Patron extends Employe {
+		
+		//attribut
+		
+		private double salaireHebdo;
+		
+		//Constructeur
+		
+		public Patron(String pre, String nom, double salaire) {
+			super(pre,nom);
+			setSalaireHebdo (salaire);
+		}
+		public void setSalaireHebdo(double s) {
+			salaireHebdo = s;
+		}
+		
+		public double gains() {
+			return salaireHebdo;
+		}
+		
+		public String toString() {
+			return "Patron" + super.toString();
+		}
+}
+
+------ PTest ------
+
+package PTest;
+
+import java.text.DecimalFormat;
+
+//Packages d'extension Java.
+import javax.swing.JOptionPane;
+import Pemploye.*;
+import PPatron.*;
+import PTravailleurCommission.*;
+import PTravailleurPiece.*;
+import PTravailleurHoraire.*;
+
+
+public final class PTest {
+
+// Tester la hiérarchie d'Employe.
+public static void main( String args[] )
+{
+   Employe unEmploye;  // référence de la superclasse
+   String sortie = "";
+
+ Patron patron = new Patron( "Jean", "Beaupré", 800.0 );
+
+   TravailleurCommission travailleurCommission = new TravailleurCommission( "Suzanne", "Bélanger", 400.0, 3.0, 150 );
+
+   TravailleurParPiece travailleurPiece = new TravailleurParPiece( "Robert", "Lévis", 2.5, 200 );
+
+   TravailleurHoraire travailleurHoraire = new TravailleurHoraire( "Hélène", "Prince", 13.75, 40 );
+
+   DecimalFormat precision2 = new DecimalFormat( "0.00" );
+
+   // Référence Employe à un Patron.
+   unEmploye = patron;  
+
+   sortie += unEmploye.toString() + " a droit à " +
+      precision2.format( unEmploye.gains() ) + " €\n" +
+      patron.toString() + " a droit à " +
+      precision2.format( patron.gains() ) + " €\n";
+
+   // Référence Employe à un TravailleurCommission.
+   unEmploye = travailleurCommission;
+
+   sortie += unEmploye.toString() + " a droit à " +
+      precision2.format( unEmploye.gains() ) + " €\n" +
+      travailleurCommission.toString() + " a droit à " +
+      precision2.format( 
+         travailleurCommission.gains() ) + " €\n";
+
+   // Référence Employe à un TravailleurPiece.
+   unEmploye = travailleurPiece;
+
+   sortie += unEmploye.toString() + " a droit à " +
+      precision2.format( unEmploye.gains() ) + " €\n" +
+      travailleurPiece.toString() + " a droit à " +
+      precision2.format( travailleurPiece.gains() ) + " €\n";
+
+   // Référence Employe à un TravailleurHoraire.
+   unEmploye = travailleurHoraire;  
+
+   sortie += unEmploye.toString() + " a droit à " +
+      precision2.format( unEmploye.gains() ) + " €\n" +
+      travailleurHoraire.toString() + " a droit à " +
+      precision2.format( travailleurHoraire.gains() ) + " €\n";
+   
+   System.out.println(sortie);
+
+   /*JOptionPane.showMessageDialog( null, sortie,
+      "Démonstration du polymorphisme",
+      JOptionPane.INFORMATION_MESSAGE );
+
+   System.exit( 0 );
+   */
+}
+
+}  // fin classe Test
+
+------ TravailleurCommission ------
+
+/**
+ * 
+ */
+package PTravailleurCommission;
+import Pemploye.Employe;
+
+/**
+ * @author Mathieu
+ *
+ */
+public final class TravailleurCommission extends Employe{
+	//Attributs
+	private double salaire;
+	private double commission;
+	private int quantite;
+	
+	
+	//constructeur
+	public TravailleurCommission (String pre, String nom, double s, double c, int q) {
+		
+		super(pre, nom);
+		//salaire = s;
+		setSalaire(s);
+		//commission = c;
+		setCommission(c);
+		//quantite = q;
+		setQuantite(q);
+		
+	}
+	
+	//setters
+	public void setSalaire(double salaire) {
+		this.salaire = salaire;
+	}
+
+	public void setCommission(double commission) {
+		this.commission = commission;
+	}
+
+	public void setQuantite(int quantite) {
+		this.quantite = quantite;
+	}
+	
+	
+	public double gains() {
+		return salaire + commission*quantite;
+	}
+	public String toString() {
+		return "Travailleur à la commission : " + super.toString();
+	}
+}
+
+------ TravailleurHoraire ------
+
+package PTravailleurHoraire;
+import Pemploye.Employe;
+
+public final class TravailleurHoraire extends Employe {
+	
+	//Attributs
+	private double retribution;
+	private double heures;
+	
+	//Constructeur
+	
+	public TravailleurHoraire(String pre, String nom, double r, double h) {
+		super(pre, nom);
+		setRetribution(r);
+		setHeures(h);
+	}
+	
+	//setters
+	public void setRetribution(double retribution) {
+		this.retribution = retribution;
+	}
+	public void setHeures(double heures) {
+		this.heures = heures;
+		}
+	
+	public double gains() {
+		return retribution*heures;
+	}
+	public String toString() {
+		return "Travailleur horaire : " + super.toString();
+	}
+}
+
+------ TravailleurParPiece ------
+
+package PTravailleurPiece;
+import Pemploye.Employe;
+
+public final class TravailleurParPiece extends Employe {
+	
+	//Attributs
+	private double retributionParPiece;
+	private int quantite;
+	
+	//Constructeur
+	public TravailleurParPiece(String pre, String nom, double r, int q) {
+		super(pre, nom);
+		setRetributionParPiece(r);
+		setQuantite(q);
+	}
+	
+	//Setters
+	public void setRetributionParPiece(double retributionParPiece) {
+		this.retributionParPiece = retributionParPiece;
+	}
+	public void setQuantite(int quantite) {
+		this.quantite = quantite;
+	}
+	public double gains() {
+		return quantite*retributionParPiece;
+	}
+	public String toString(){
+		return "Travailleur à la pièce : " + super.toString();
+	}
+}
