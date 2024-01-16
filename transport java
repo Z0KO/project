@@ -1,0 +1,217 @@
+------ Bike ------
+
+package PBike;
+import PVehicule.*;
+
+public class Bike extends Vehicule{
+	
+	private String handle;
+
+
+	public Bike(){
+		super();
+		handle=" short";
+	}
+	
+	public Bike(String e, int w, int s, int f, String l, String h){
+		super(e,w,s,f,l);
+		handle=h;
+	}
+
+	//setters
+	
+	public void setHandle(String handle) {
+		this.handle = handle;
+	}
+	
+	public String toString() {
+		return "Bike" + handle + super.toString();
+	}
+	
+	//getters
+	
+	public String getHandle() {
+		return handle;
+	}
+}
+
+------ Car ------
+
+package PCar;
+import PVehicule.*;
+
+public class Car extends Vehicule {
+	
+	private String steering;
+	private String musicSystem;
+	private String airConditioner;
+	private String fridge;
+	private String entrainmentSystem;
+	
+	public Car() {
+		steering="PowerSteering";
+	}
+	
+	public Car(String e, int w, int s, int f, String l, String se) {
+		super(e,w,s,f,l);
+		steering= se;
+	}
+	
+	public Car(String e, int w, int s, int f, String l,String se, String m, String a) {
+		super(e,w,s,f,l);
+		steering =se;
+		musicSystem =m;
+		airConditioner =a;
+	}
+	
+	//setters
+	
+	public void setSteering(String PowerSteering) {
+		this.steering = PowerSteering;
+	}
+	
+	public String toString() {
+		return steering + " " + musicSystem + " " + airConditioner + " " + super.toString();
+	}
+	
+	//getters
+	
+	public String getSteering() {
+		return steering;
+	}
+	
+}
+
+------ Demo ------
+
+package PMain;
+import PBike.*;
+import PVehicule.*;
+import PCar.*;
+
+public class Demo {
+
+	public static void main(String[] args) {
+		
+		Bike Velo = new Bike();
+		System.out.println(Velo.getHandle());
+		System.out.println(Velo.getEngine());
+		Car Voiture = new Car("Power Steering",4,4,40,"Diesel","LED");
+		
+		System.out.println("Steering : "+ Voiture.getSteering());
+		System.out.println("Engine Type : "+ Voiture.getEngine());
+		System.out.println("Number of seats : "+ Voiture.getSeats());
+		System.out.println("Fuel tank capacity : "+ Voiture.getFueTank());
+		System.out.println("Head lamp type : "+ Voiture.getLights());
+		System.out.println("Number of wheels : "+ Voiture.getWheels());
+		
+		
+	}
+
+}
+
+------ Truck ------
+
+package PTruck;
+import PCar.*;
+
+public class Truck extends Car {
+	
+	@SuppressWarnings("unused")
+	private int container;
+	
+	public Truck(String e, int w, int s, int f, String l,String se, String m, String a, int c) {
+		super(e,w,s,f,l,se,m,a);
+		container = c;
+	}
+	
+	public Truck() {
+		super();
+		container = 2400;
+	}
+	
+	public String toString() {
+		return super.toString();
+	}
+	
+
+}
+
+------ Vehicule ------
+
+package PVehicule;
+
+public class Vehicule {
+	
+	private String engine;
+	private int wheels;
+	private int seats;
+	private int fueTank;
+	private String lights;
+	
+	public Vehicule(){
+		engine= "Petrol Engine";
+		wheels=4;
+		seats=4;
+		fueTank=35;
+		lights="LED";
+	}
+	
+	public Vehicule(String e, int w, int s, int f, String l){
+		engine=e;
+		wheels=w;
+		seats=s;
+		fueTank=f;
+		lights=l;
+		
+	}
+	
+	//setters
+	
+	public void setEngine(String engine) {
+		this.engine = engine;
+	}
+
+	public void setWheels(int wheels) {
+		this.wheels = wheels;
+	}
+
+	public void setSeats(int seats) {
+		this.seats = seats;
+	}
+
+	public void setFueTank(int fueTank) {
+		this.fueTank = fueTank;
+	}
+
+	public void setLights(String lights) {
+		this.lights = lights;
+	}
+
+	public String toString() {
+		return engine + " " + wheels + " " + seats + " " + fueTank + " " + lights;
+	}
+	
+	//getters
+	
+	public String getEngine() {
+		return engine;
+	}
+	
+	public int getWheels() {
+		return wheels;
+	}
+
+	public int getSeats() {
+		return seats;
+	}
+
+	public int getFueTank() {
+		return fueTank;
+	}
+
+	public String getLights() {
+		return lights;
+	}
+
+}
