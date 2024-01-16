@@ -1,0 +1,94 @@
+------ Employe ------
+
+package Pemploye;
+
+public class Employe {
+
+	private String nomFamille;
+	private String prenom;
+	//attribut statique
+	static int nombre;
+	
+	public Employe(String nom, String pre){
+		
+		nomFamille = nom;
+		prenom = pre;
+		
+		++nombre;
+		System.out.println("Constructeur d'objet employe : " + prenom + " " + nomFamille);
+	}
+	//Destructeur
+	public void finalize() {
+		
+		--nombre;
+		System.out.println("Le finaliseur d'objet Employe : " + prenom + " " + nomFamille + "; nombre=  " + nombre);	
+	}
+	//Getter
+	public String getnomFamille() {
+		return nomFamille;
+	}
+	public String getPrenom() {
+		return prenom;
+	}
+	
+	public static int getNombre() {
+		return nombre;
+	}
+}
+
+------ TestEmploye ------
+
+package Pemploye;
+import javax.swing.*;
+
+public class TestEmploye {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	      // Vérifier que le nombre vaut 0 avant de créer un Employe.
+	      String sortie = "Nombres d'employés avant instanciation : " +
+	         Employe.getNombre();
+
+	      // Créer deux employés; nombre devrait valoir 2.
+	      Employe e1 = new Employe( "Suzanne", "Boulanger" );
+	      Employe e2 = new Employe( "Robert", "Jean" );
+	   
+	      // Prouver que nombre vaut 2 après création de deux employés.
+	      // Note : les méthodes statiques ne doivent être appelées que via
+	      // le nom de la classe dans laquelle elles sont définies.
+	      sortie += "\n\nNombre d'employés après instanciation : " +
+	         "\nvia e1.getNombre() : " + Employe.getNombre() +
+	         "\nvia e2.getNombre() : " + Employe.getNombre() +
+	         "\nvia Employe.getNombre() : " + Employe.getNombre();
+	   
+	      // Obtenir le nom des employés.
+	      sortie += "\n\nEmployé 1 : " + e1.getPrenom() +
+	         " " + e1.getnomFamille() + "\nEmployé 2 : " + 
+	         e2.getPrenom() + " " + e2.getnomFamille();
+
+	      // S'il n'y a qu'une référence à chaque employé comme dans
+	      // cet exemple, l'instruction suivante marque ces objets
+	      // pour la collecte d'ordures.
+	      // Sinon, ces instructions décrémentent simplement 
+	      // le nombre de références de chaque objet.
+	      e1 = null;  
+	      e2 = null;  
+
+	      System.gc(); // suggère un appel au collecteur d'ordures
+
+	      // Montrer le nombre d'Employe après appel au collecteur d'ordures.
+	      // Le nombre affiché peut prendre les valeurs 0, 1 ou 2, selon que
+	      // le collecteur d'ordures s'est exécuté immédiatement et
+	      // le nombre d'objets Employe qu'il a nettoyés.
+	      sortie += "\n\nNombre d'employés après System.gc() : " +
+	         Employe.getNombre();
+
+	      JOptionPane.showMessageDialog( null, sortie,
+	         "Membres statiques et collecte d'ordures",
+	         JOptionPane.INFORMATION_MESSAGE );
+
+	      System.exit( 0 );
+	   }
+
+	}  // fin classe TestEmploye
