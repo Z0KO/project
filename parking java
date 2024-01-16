@@ -1,1 +1,338 @@
+------ Bus ------
 
+package Parking_Project;
+
+public class Bus extends Vehicule {
+	public Bus() {
+		spotsNeeded = 10;
+		size = VehiculeSize.Large;
+	}
+	
+	public boolean canFitInSpot(ParkingSpot spot) {
+		return spot.getSize() == VehiculeSize.Large;
+	}
+	
+	public void print() {
+		System.out.print("B");
+	}
+
+}
+
+------ Car ------
+
+package Parking_Project;
+
+public class Car extends Vehicule {
+	public Car() {
+		spotsNeeded = 2;
+		size = VehiculeSize.Compact;
+	}
+	
+	
+	
+		
+	
+	
+	public boolean canFitInSpot(ParkingSpot spot) {
+		return spot.getSize() == VehiculeSize.Large || spot.getSize() == VehiculeSize.Compact;
+	}
+	
+	public void print() {
+		System.out.println("C");
+	}
+}
+
+------ Level ------
+
+package Parking_Project;
+
+public class Level {
+	@SuppressWarnings("unused")
+	private int floor;
+	private ParkingSpot[] spots;
+	private int availableSpots = 0;
+	private static final int SPOTS_PER_ROW = 10;
+	
+	public Level(int flr, int numberSpots) {
+		floor = flr;
+		spots = new ParkingSpot[numberSpots];
+		int largeSpots = numberSpots / 4;
+		int bikeSpots = numberSpots / 4;
+		int compactSpots = numberSpots - largeSpots - bikeSpots;
+		for (int i = 0; i < numberSpots; i++) {
+			VehiculeSize sz = VehiculeSize.Motorcycle;
+			if (i < largeSpots) {
+				sz = VehiculeSize.Large;
+			} else if (i < largeSpots + compactSpots) {
+				sz = VehiculeSize.Compact;
+			}
+			int row = i / SPOTS_PER_ROW;
+			spots[i] = new ParkingSpot(this, row, i, sz);
+		}
+		availableSpots = numberSpots;
+	}
+	
+	public int availableSpots() {
+		return availableSpots;
+	}
+	
+	public boolean parkVehicule(Vehicule vehicule) {
+		if(availableSpots() < vehicule.getSpotsNeeded()) {
+			return false;
+		}
+		int spotNumber = findAvailableSpots(vehicule);
+		if (spotNumber < 0) {
+			return false;
+		}
+		return parkStartingAtSpot(spotNumber, vehicule);
+	}
+	
+	private boolean parkStartingAtSpot(int spotNumber, Vehicule vehicule) {
+		vehicule.clearSpots();
+		boolean success = true;
+		for (int i = spotNumber; i < spotNumber + vehicule.spotsNeeded; i++) {
+			success &= spots[i].park(vehicule);
+		}
+		availableSpots -= vehicule.spotsNeeded;
+		return success;
+	}
+	
+	private int findAvailableSpots(Vehicule vehicule) {
+		int spotsNeeded = vehicule.getSpotsNeeded();
+		int lastRow = -1;
+		int spotsFound = 0;
+		for (int i = 0; i < spots.length; i++) {
+			ParkingSpot spot = spots[i];
+			if (lastRow != spot.getRow()) {
+				spotsFound = 0;
+				lastRow = spot.getRow();
+			}
+			if (spot.canFitVehicule(vehicule)) {
+				spotsFound = 0;
+			}
+			if (spotsFound == spotsNeeded) {
+				return i - (spotsNeeded - 1);
+			}
+		}
+		return -1;
+	}
+	
+	public Level print(int j) {
+		int lastRow = -1;
+		for (int i = 0; i <spots.length; i++) {
+			ParkingSpot spot = spots[i];
+			if (spot.getRow() != lastRow) {
+				System.out.print("  ");
+				lastRow = spot.getRow();
+			}
+			spot.print();
+		}
+		return null;
+	}
+	
+	public void spotFreed() {
+		availableSpots++;
+	}
+	
+}
+
+------ Motorcycle ------
+
+package Parking_Project;
+
+public class Motorcycle extends Vehicule {
+	public Motorcycle() {
+		spotsNeeded = 1;
+		size = VehiculeSize.Motorcycle;
+	}
+	
+	public boolean canFitInSpot(ParkingSpot spot) {
+		return true;
+	}
+	
+	public void print() {
+		System.out.print("M");
+	}
+
+}
+
+------ ParkingLot ------
+
+package Parking_Project;
+
+public class ParkingLot {
+	
+	private Level[] levels;
+	private final int NUM_LEVELS = 5;
+	
+	public ParkingLot() {
+		levels = new Level[NUM_LEVELS];
+		for (int i = 0; i  < NUM_LEVELS; i++); {
+			levels[NUM_LEVELS] = new Level(NUM_LEVELS, 30);
+		}
+	}
+	
+	public boolean parkVehicule(Vehicule vehicule) {
+		for (int i = 0; i < levels.length; i++) {
+			if (levels[i].parkVehicule(vehicule)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+}
+
+------ ParkingSpot ------
+
+package Parking_Project;
+
+public class ParkingSpot {
+	
+	private Vehicule vehicule;
+	private VehiculeSize spotSize;
+	private int row;
+	private int spotNumber;
+	private Level level;
+	
+	public ParkingSpot(Level lvl, int r, int n, VehiculeSize sz) {
+		level = lvl;
+		row = r;
+		spotNumber = n;
+		spotSize = sz;
+	}
+	
+	public ParkingSpot(String print, int r, int n, VehiculeSize compact) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public boolean isAvailable() {
+		return vehicule == null;
+	}
+	
+	public boolean canFitVehicule(Vehicule vehicule) {
+		return isAvailable() && vehicule.canFitInSpot(this);
+	}
+	
+	public boolean park(Vehicule v) {
+		if (!canFitVehicule(v)) {
+			return false;
+		}
+		vehicule = v;
+		vehicule.parkInSpot(this);
+		return true;
+	}
+	
+	public int getRow() {
+		return row;
+	}
+	
+	public int getSpotNumber() {
+		return spotNumber;
+	}
+	
+	public VehiculeSize getSize() {
+		return spotSize;
+	}
+
+	public void removeVehicule() {
+		level.spotFreed();
+		vehicule = null;
+	}
+	
+	public void print() {
+		if (vehicule == null) {
+			if (spotSize == VehiculeSize.Compact) {
+				System.out.print("c");
+			} else if (spotSize == VehiculeSize.Motorcycle) {
+				System.out.print("m");
+			}
+		}else {
+			vehicule.print();
+		}
+	}
+	
+}
+
+------ testParking ------
+
+package Parking_Project;
+
+public class testParking {
+
+	public static void main(String[] args) {
+		Level niveeeauuuuu = new Level(1,10);
+		ParkingSpot Mon_Parking = new ParkingSpot(niveeeauuuuu.print(4), 7, 10, VehiculeSize.Compact);
+		
+		
+		
+		Car Ford = new Car();
+		
+		Motorcycle KTM = new Motorcycle();
+		KTM.LicensePlate = "DSSSKJJ";
+		KTM.size = VehiculeSize.Motorcycle;
+		KTM.parkInSpot(Mon_Parking);
+		
+		Bus Heuliez_Bus = new Bus();
+		Heuliez_Bus.LicensePlate = "ZWWKZNR";
+		Heuliez_Bus.size = VehiculeSize.Large;
+		Heuliez_Bus.getSize();
+		System.out.print(Heuliez_Bus.getSize());
+		System.out.print(Heuliez_Bus.spotsNeeded);
+		
+		
+		Mon_Parking.park(Ford);
+		System.out.print(true);
+	
+		
+	}
+
+}
+
+------ Vehicule ------
+
+package Parking_Project;
+import java.util.ArrayList;
+public abstract class Vehicule {
+	
+	protected ArrayList<ParkingSpot> parkingSpots = new ArrayList<ParkingSpot>();
+	protected String LicensePlate;
+	protected int spotsNeeded;
+	protected VehiculeSize size;
+	
+	public int getSpotsNeeded() {
+		return spotsNeeded;
+	}
+	
+	public VehiculeSize getSize() {
+		return size;
+	}
+
+	public void parkInSpot(ParkingSpot spot) {
+		parkingSpots.add(spot);
+	}
+	
+	public void clearSpots() {
+		for (int i = 0; i < parkingSpots.size(); i++) {
+			parkingSpots.get(i).removeVehicule();
+		}
+		parkingSpots.clear();
+	}
+	
+	public abstract boolean canFitInSpot(ParkingSpot spot);
+	public abstract void print();
+	
+}
+
+------ VehiculeSize ------
+
+package Parking_Project;
+
+public enum VehiculeSize {
+	
+	Motorcycle,
+	Compact,
+	Large
+	
+
+}
