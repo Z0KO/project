@@ -1,0 +1,202 @@
+------ Depracated ------ (Interface)
+
+package PremierPersonne;
+
+public @interface Depracated {
+
+}
+
+------ Personne ------
+
+package PremierPersonne;
+import java.time.LocalDate;
+public class Personne {
+	
+	
+	
+	private String nom;
+	private String prenom;
+	private LocalDate dateDeNaissance;
+	@SuppressWarnings("unused")
+	private static Object nbInstances;
+	
+	public static int initCompteur()
+	{
+		int cpt=0;
+		Random rd = new Random();
+		cpt=(int) (nbInstances = rd.nextInt(1000));
+		return cpt;
+	}
+	
+
+	public void destructeur(){
+		{
+			System.out.println("Je suis le destructeur");
+		}
+	}
+	
+	public LocalDate getDateDeNaissance() 
+	{
+		return dateDeNaissance;
+	}
+
+	public int calculerAge() {
+		
+		return dateDeNaissance.until(LocalDate.now()).getYears();
+
+	}
+		@Depracated
+		public void afficher()
+		
+		{
+			System.out.println("Le nom est : " + nom);
+			System.out.println("Le prénom est : " + prenom);
+			System.out.println("L'age est : " + calculerAge());
+		}
+		
+		public void afficher(boolean francais)
+		{
+			if (francais)
+			{
+				System.out.println("nom : " + nom);
+				System.out.println("prénom : " + prenom);
+				System.out.println("Age : " + calculerAge());
+			}
+			else
+			{
+				System.out.println("name : " + nom);
+				System.out.println("first name : " + prenom);
+				System.out.println("age : " + calculerAge());
+			}
+		}
+		
+		public void afficher(String couleurs)
+		{
+			if(couleurs==null)
+			{
+				System.out.println("pas de couleurs");
+				return;
+			}
+			switch (couleurs.length())
+			{
+				case 1:
+					System.out.println("une couleur");
+					break;
+				case 2:
+					System.out.println("deux couleurs");
+					break;
+				case 3:
+					System.out.println("trois couleurs");
+					break;
+					default :
+						System.out.println("plus de trois couleurs");
+			}
+		}
+		
+		public void SetPrenom(String p)
+		{
+			if(p!=null)
+			{
+				prenom=p.toLowerCase();
+			}
+		}
+		
+		public void SetNom(String n)
+		{
+			if(n!=null)
+			{
+				nom=n.toUpperCase();
+			}
+		}
+		
+		public Personne()
+		{
+			SetNom("Nom : ");
+			SetPrenom("Prénom : ");
+			dateDeNaissance=null;
+		}
+		
+		//Setter
+		
+		public Personne(String n, String p, LocalDate d)
+		{
+			SetNom(n);
+			SetPrenom(p);
+			dateDeNaissance=d;
+		}
+		
+		public String getNom() {
+			return nom;
+		}
+
+
+		public String getPrenom() {
+			return prenom;
+		}
+
+
+		public static int numero()
+		{
+			return 0;
+		}
+		
+		public static Object getNbInstances() {
+			return nbInstances;
+		}
+
+
+		protected void finalize() throws Throwable
+		{
+			
+		}				
+}
+
+------ Random ------
+
+package PremierPersonne;
+import java.time.LocalDate;
+
+@SuppressWarnings("unused")
+public class Random {
+	
+		public Object nextInt(int i) {
+			// TODO Auto-generated method stub
+			return null;
+		
+	}
+}
+
+------ TestPersonne ------
+
+package PremierPersonne;
+import java.time.LocalDate;
+
+@SuppressWarnings("unused")
+public class TestPersonne {
+
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		Personne p;
+		p=new Personne();
+		p.afficher();
+		
+		p.SetNom("dupont");
+		p.SetPrenom("albert");
+		
+		System.out.println("Afficher des caractéristiques de la personne");
+		System.out.println(p.getNom());
+		System.out.println(p.getPrenom());
+		System.out.println("Numéro : " + Personne.getNbInstances());
+		
+		System.out.println("Affichage de la personne avec la méthode Deprecated afficher()");
+		p.afficher();
+		
+		System.out.println("Affichage de la personne avec la personne avec la méthode afficher(true)");
+		p.afficher(true);
+		
+		System.out.println("Affichage de la personne avec la personne avec la méthode afficher(false)");
+		p.afficher(false);
+	}
+
+}
